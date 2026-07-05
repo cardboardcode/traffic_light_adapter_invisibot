@@ -1,0 +1,30 @@
+<?xml version='1.0' ?>
+
+<launch>
+  <!-- Traffic Light Adapter Invisibot Parameters -->
+  <arg name="config_file" default="/traffic_light_adapter_invisibot_ws/src/traffic_light_adapter_invisibot/config.yaml"/>
+  <arg name="server_uri" default="ws://localhost:8000/_internal"/>
+  <arg name="use_sim_time" default="true" description="Use the /clock topic for time to sync with simulation"/>
+
+  <!-- Traffic Light Adapter Invisibot  -->
+  <group if="$(var use_sim_time)">
+    <node pkg="traffic_light_adapter_invisibot"
+          exec="fleet_adapter"
+          args="-c $(var config_file) -sim"
+          output="both">
+
+      <param name="server_uri" value="$(var server_uri)"/>
+    </node>
+  </group>
+  <group unless="$(var use_sim_time)">
+    <node pkg="traffic_light_adapter_invisibot"
+          exec="fleet_adapter"
+          args="-c $(var config_file)"
+          output="both">
+
+      <param name="server_uri" value="$(var server_uri)"/>
+    </node>
+  </group>
+
+</launch>
+
