@@ -14,7 +14,7 @@ RUN apt-get update && \
 
 WORKDIR /rmf_ws
 
-COPY traffic_light_adapter_template src/traffic_light_adapter_template
+COPY traffic_light_adapter_invisibot src/traffic_light_adapter_invisibot
 
 RUN . /opt/ros/$ROS_DISTRO/setup.sh && \
     colcon build \

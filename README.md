@@ -1,4 +1,4 @@
-# traffic_light_adapter_template
+# traffic_light_adapter_invisibot
 
 > Note: This template targets Open-RMF on **ROS 2 Jazzy**. It is the `traffic_light` counterpart to the `full_control` [fleet_adapter_template](https://github.com/open-rmf/fleet_adapter_template).
 
@@ -66,5 +66,5 @@ The `config.yaml` file contains the parameters for setting up the fleet adapter.
 Run the command below while passing the path to the configuration file.
 
 ```bash
-ros2 run traffic_light_adapter_template fleet_adapter -c CONFIG_FILE
+ros2 run traffic_light_adapter_invisibot fleet_adapter -c CONFIG_FILE
 ```

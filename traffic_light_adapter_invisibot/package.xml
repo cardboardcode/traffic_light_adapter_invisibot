@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="3">
-  <name>traffic_light_adapter_template</name>
+  <name>traffic_light_adapter_invisibot</name>
   <version>0.0.0</version>
-  <description>A template for an RMF Traffic Light fleet adapter</description>
+  <description>An RMF Traffic Light fleet adapter for invisibot</description>
   <maintainer email="Loke_Ji_Xian@cgh.com.sg">Ji Xian</maintainer>
   <maintainer email="Alis_Lin@cgh.com.sg">Alis</maintainer>
   <license>Apache License 2.0</license>

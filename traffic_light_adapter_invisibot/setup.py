@@ -4,7 +4,7 @@ import os
 from setuptools import find_packages
 from setuptools import setup
 
-package_name = 'traffic_light_adapter_template'
+package_name = 'traffic_light_adapter_invisibot'
 
 setup(
     name=package_name,
@@ -39,7 +39,7 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-            'fleet_adapter=traffic_light_adapter_template.fleet_adapter:main',
+            'fleet_adapter=traffic_light_adapter_invisibot.fleet_adapter:main',
         ],
     },
 )
