@@ -16,7 +16,6 @@ setup(
             ['resource/' + package_name],
         ),
         ('share/' + package_name, ['package.xml']),
-        ('share/' + package_name, ['config.yaml']),
         (
             os.path.join('share', package_name, 'launch'),
             glob('launch/*.launch.xml'),
@@ -32,9 +31,9 @@ setup(
         'nudged',
     ],
     zip_safe=True,
-    maintainer='Ji Xian',
-    maintainer_email='Loke_Ji_Xian@cgh.com.sg',
-    description='A template for an RMF Traffic Light fleet adapter',
+    maintainer='Gary Bey',
+    maintainer_email='beyhy94@gmail.com',
+    description='An RMF Traffic Light fleet adapter for invisibot',
     license='Apache License 2.0',
     tests_require=['pytest'],
     entry_points={
