@@ -312,6 +312,8 @@ class TrafficLightCommandHandle:
         mid-segment. moving_from() is the only call that re-checks the
         slot ahead.
         """
+        self.logger.warn(
+                f'_handle_moving - FUNCTION CALLED...')
         # Skip moving_from if last_cp > the path length
         if (self._cached_path is not None
                 and last_cp + 1 >= len(self._cached_path)):

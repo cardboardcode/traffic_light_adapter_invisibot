@@ -12,6 +12,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+import requests
+
 """
 The RobotAPI class is a wrapper for API calls to the robot. Here users
 are expected to fill up the implementations of functions which will be used
@@ -24,31 +26,149 @@ these functions.
 class RobotAPI:
     def __init__(self, config: dict):
         self.prefix = config.get('prefix', '')
-        self.user = config.get('user', '')
-        self.password = config.get('password', '')
         self.timeout = float(config.get('timeout', 1.0))
         self.debug = bool(config.get('debug', False))
 
+    def get_robot_status(self, robot_name: str) -> dict:
+        url = self.prefix + '/status'
+        headers = {'Content-Type': 'application/json'}
+        params = {
+            'robot_name': robot_name
+        }
+        try:
+            response = requests.get(
+                url,
+                headers=headers,
+                params=params
+                )
+            response.raise_for_status()  # Raise an exception for HTTP errors (4xx or 5xx)
+            return response.json()
+        except requests.exceptions.ConnectionError:
+            print(f'Error: Could not connect to the server at {url}. '
+                  'Please ensure the sensor is running.')
+            return None
+        except requests.exceptions.Timeout:
+            print(f'Error: The request to {url} timed out.')
+            return None
+        except requests.exceptions.RequestException as e:
+            print(f'An unexpected error occurred: {e}')
+            return None
+
+    def get_curr_map(self, robot_name: str) -> str:
+        """
+        Return the name of the map that the robot is currently on.
+
+        Return None if any errors are encountered.
+        """
+        robot_status = self.get_robot_status(robot_name)
+        if robot_status:
+            return robot_status['data']['map_name']
+        else:
+            return None
+
+    def position(self, robot_name: str):
+        """
+        Return [x, y, theta] expressed in the robot's coordinate frame.
+
+        Return None if any errors are encountered
+        """
+        robot_status = self.get_robot_status(robot_name)
+        if robot_status:
+            robot_pos = [
+                robot_status['data']['position']['x'],
+                robot_status['data']['position']['y'],
+                robot_status['data']['position']['yaw']
+                ]
+            return robot_pos
+        else:
+            return None
+
+    def battery_soc(self, robot_name: str) -> float:
+        """
+        Return the state of robot charge as a value between 0.0 and 1.0.
+
+        Otherwise, return None if any errors are encountered.
+        """
+        robot_status = self.get_robot_status(robot_name)
+        if robot_status:
+            return float(robot_status['data']['battery']/100.0)
+        else:
+            return None
+
     def get_data(self, robot_name: str):
         """Return a RobotUpdateData snapshot, or None on transient failure."""
-        # ------------------------ #
-        # IMPLEMENT YOUR CODE HERE #
-        # ------------------------ #
+        curr_map = self.get_curr_map(robot_name)
+        position = self.position(robot_name)
+        battery_soc = self.battery_soc(robot_name)
+        if not (curr_map is None or position is None or battery_soc is None):
+            return RobotUpdateData(robot_name, curr_map, position, battery_soc)
         return None
 
     def pause(self, robot_name: str) -> bool:
         """Command the robot's fleet manager to pause this robot."""
-        # ------------------------ #
-        # IMPLEMENT YOUR CODE HERE #
-        # ------------------------ #
-        return False
+        url = self.prefix + '/stop'
+
+        headers = {'Content-Type': 'application/json'}
+        params = {
+            'robot_name': robot_name
+        }
+
+        try:
+            response = requests.post(
+                url,
+                headers=headers,
+                params=params
+                )
+
+            # Check for a 200 OK status explicitly
+            if response.status_code == 200:
+                return True
+            else:
+                return False
+
+        except requests.exceptions.ConnectionError:
+            print(f'Error: Could not connect to the server at {url}. '
+                  'Please ensure the server is running.')
+            return False
+        except requests.exceptions.Timeout:
+            print(f'Error: The POST request to {url} timed out.')
+            return False
+        except requests.exceptions.RequestException as e:
+            print(f'An unexpected error occurred during the POST request: {e}')
+            return False
 
     def resume(self, robot_name: str) -> bool:
         """Command the robot's fleet manager to resume this robot."""
-        # ------------------------ #
-        # IMPLEMENT YOUR CODE HERE #
-        # ------------------------ #
-        return False
+        url = self.prefix + '/resume'
+
+        headers = {'Content-Type': 'application/json'}
+        params = {
+            'robot_name': robot_name
+        }
+
+        try:
+            response = requests.post(
+                url,
+                headers=headers,
+                params=params
+                )
+
+            # Check for a 200 OK status explicitly
+            if response.status_code == 200:
+                return True
+            else:
+                return False
+
+        except requests.exceptions.ConnectionError:
+            print(f'Error: Could not connect to the server at {url}. '
+                  'Please ensure the server is running.')
+            return False
+        except requests.exceptions.Timeout:
+            print(f'Error: The POST request to {url} timed out.')
+            return False
+        except requests.exceptions.RequestException as e:
+            print(f'An unexpected error occurred during the POST request: {e}')
+            return False
 
     def pause_at_checkpoint(
             self, robot_name: str, checkpoint: int) -> bool:
