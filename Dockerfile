@@ -12,7 +12,7 @@ RUN apt-get update && \
         cmake \
     && rm -rf /var/lib/apt/lists/*
 
-WORKDIR /rmf_ws
+WORKDIR /traffic_light_adapter_invisibot_ws
 
 COPY traffic_light_adapter_invisibot src/traffic_light_adapter_invisibot
 
@@ -42,10 +42,10 @@ RUN pip3 install --no-cache-dir \
         --break-system-packages
 
 COPY --from=builder \
-    /rmf_ws/install \
-    /rmf_ws/install
+    /traffic_light_adapter_invisibot_ws/install \
+    /traffic_light_adapter_invisibot_ws/install
 
-RUN sed -i '$isource "/rmf_ws/install/setup.bash"' \
+RUN sed -i '$isource "/traffic_light_adapter_invisibot_ws/install/setup.bash"' \
     /ros_entrypoint.sh
 
 RUN echo "source /ros_entrypoint.sh" >> /etc/bash.bashrc
