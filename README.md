@@ -8,7 +8,7 @@
 > - Pauses/Resumes a robot's navigation trajectory.
 
 > [!WARNING]
-> `traffic_light_adapter` does not offer any visualisation on `RViz` or `rmf-web`.
+> `traffic_light_adapter` offers only schedule trajectory visualisation on `RViz` or `rmf-web`.
 
 ## **Dependencies** :books:
 
