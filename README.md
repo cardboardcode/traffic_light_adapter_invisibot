@@ -7,6 +7,9 @@
 > - Allows participation in traffic deconfliction
 > - Pauses/Resumes a robot's navigation trajectory.
 
+> [!WARNING]
+> `traffic_light_adapter` does not offer any visualisation on `RViz` or `rmf-web`.
+
 ## **Dependencies**
 
 - [ROS 2 Jazzy Jalisco](https://docs.ros.org/en/jazzy/index.html)
