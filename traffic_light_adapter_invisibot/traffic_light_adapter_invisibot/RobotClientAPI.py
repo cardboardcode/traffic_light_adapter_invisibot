@@ -97,26 +97,55 @@ class RobotAPI:
 
     def get_data(self, robot_name: str):
         """Return a RobotUpdateData snapshot, or None on transient failure."""
-        curr_map = self.get_curr_map(robot_name)
-        position = self.position(robot_name)
-        battery_soc = self.battery_soc(robot_name)
+        robot_status = self.get_robot_status(robot_name)
+        if robot_status:
+            curr_map = robot_status['data']['map_name']
+            position = [
+                robot_status['data']['position']['x'],
+                robot_status['data']['position']['y'],
+                robot_status['data']['position']['yaw']
+                ]
+            battery_soc = float(robot_status['data']['battery']/100.0)
+            is_moving = robot_status['data']['completed_request']
+            dest = robot_status['data']['curr_path_size']
 
-        data = {
-            'robot_name': robot_name,
-            'position': position,
-            'map_name': curr_map,
-            # 'current_path': '',
-            # 'last_completed_checkpoint': '',
-            # 'is_moving': '',
-            'battery_soc': battery_soc,
-            # 'error': ''
-        }
+            # DEBUG
+            # Hardcoded current_path
+            current_path = [
+                {  
+                    "index": 0,  
+                    "x": 24.11301308126712,  
+                    "y": -4.105150426922675,  
+                    "yaw": 1.0,  
+                    "map_name": "L1",  
+                    "obey_approach_speed_limit": False,  
+                    "approach_speed_limit": 1.0  
+                },  
+                {  
+                    "index": 1,  
+                    "x": 24.11301308126712,  
+                    "y": -6.609659760785416,  
+                    "yaw": 1.0,  
+                    "map_name": "L1",  
+                    "obey_approach_speed_limit": True,  
+                    "approach_speed_limit": 1.0  
+                },
+            ]
 
-        # print(f'data = {data}', flush=True)
+            data = {
+                'robot_name': robot_name,
+                'position': position,
+                'map_name': curr_map,
+                'current_path': current_path,
+                'last_completed_checkpoint': 1 if dest[0]['x'] == 24.11301308126712 and dest[0]['y'] == -4.105150426922675 else 0,
+                'is_moving': is_moving,
+                'battery_soc': battery_soc,
+                # 'error': ''
+            }
 
-        if not (curr_map is None or position is None or battery_soc is None):
             return RobotUpdateData(data=data, robot_name=robot_name)
-        return None
+        else:
+            return None
 
     def pause(self, robot_name: str) -> bool:
         """Command the robot's fleet manager to pause this robot."""
