@@ -100,8 +100,22 @@ class RobotAPI:
         curr_map = self.get_curr_map(robot_name)
         position = self.position(robot_name)
         battery_soc = self.battery_soc(robot_name)
+
+        data = {
+            'robot_name': robot_name,
+            'position': position,
+            'map_name': curr_map,
+            # 'current_path': '',
+            # 'last_completed_checkpoint': '',
+            # 'is_moving': '',
+            'battery_soc': battery_soc,
+            # 'error': ''
+        }
+
+        # print(f'data = {data}', flush=True)
+
         if not (curr_map is None or position is None or battery_soc is None):
-            return RobotUpdateData(robot_name, curr_map, position, battery_soc)
+            return RobotUpdateData(data=data, robot_name=robot_name)
         return None
 
     def pause(self, robot_name: str) -> bool:
