@@ -10,12 +10,12 @@
 > [!WARNING]
 > `traffic_light_adapter` does not offer any visualisation on `RViz` or `rmf-web`.
 
-## **Dependencies**
+## **Dependencies** :books:
 
 - [ROS 2 Jazzy Jalisco](https://docs.ros.org/en/jazzy/index.html)
 - [Open-RMF on Jazzy Jalisco](https://github.com/open-rmf/rmf/releases/tag/release-jazzy-240617)
 
-## **Build**
+## **Build** :hammer:
 
 ```bash
 git clone https://github.com/cardboardcode/traffic_light_adapter_invisibot.git --branch main --single-branch --depth 1 && cd traffic_light_adapter_invisibot
@@ -25,7 +25,7 @@ git clone https://github.com/cardboardcode/traffic_light_adapter_invisibot.git -
 bash scripts/1_build_docker_image.bash
 ```
 
-## **Run**
+## **Run** :rocket:
 
 ```bash
 bash scripts/2_run_docker_container.bash
