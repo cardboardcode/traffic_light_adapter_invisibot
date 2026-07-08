@@ -54,47 +54,6 @@ class RobotAPI:
             print(f'An unexpected error occurred: {e}')
             return None
 
-    def get_curr_map(self, robot_name: str) -> str:
-        """
-        Return the name of the map that the robot is currently on.
-
-        Return None if any errors are encountered.
-        """
-        robot_status = self.get_robot_status(robot_name)
-        if robot_status:
-            return robot_status['data']['map_name']
-        else:
-            return None
-
-    def position(self, robot_name: str):
-        """
-        Return [x, y, theta] expressed in the robot's coordinate frame.
-
-        Return None if any errors are encountered
-        """
-        robot_status = self.get_robot_status(robot_name)
-        if robot_status:
-            robot_pos = [
-                robot_status['data']['position']['x'],
-                robot_status['data']['position']['y'],
-                robot_status['data']['position']['yaw']
-                ]
-            return robot_pos
-        else:
-            return None
-
-    def battery_soc(self, robot_name: str) -> float:
-        """
-        Return the state of robot charge as a value between 0.0 and 1.0.
-
-        Otherwise, return None if any errors are encountered.
-        """
-        robot_status = self.get_robot_status(robot_name)
-        if robot_status:
-            return float(robot_status['data']['battery']/100.0)
-        else:
-            return None
-
     def get_data(self, robot_name: str):
         """Return a RobotUpdateData snapshot, or None on transient failure."""
         robot_status = self.get_robot_status(robot_name)
@@ -114,8 +73,8 @@ class RobotAPI:
             current_path = [
                 {  
                     "index": 0,  
-                    "x": 24.11301308126712,  
-                    "y": -4.105150426922675,  
+                    "x": 15.536666642314527,  
+                    "y": -3.956824150953915,  
                     "yaw": 1.0,  
                     "map_name": "L1",  
                     "obey_approach_speed_limit": False,  
@@ -123,8 +82,8 @@ class RobotAPI:
                 },  
                 {  
                     "index": 1,  
-                    "x": 24.11301308126712,  
-                    "y": -6.609659760785416,  
+                    "x": 15.536666642314527,  
+                    "y": -6.5907658819385135,  
                     "yaw": 1.0,  
                     "map_name": "L1",  
                     "obey_approach_speed_limit": True,  
@@ -137,7 +96,7 @@ class RobotAPI:
                 'position': position,
                 'map_name': curr_map,
                 'current_path': current_path,
-                'last_completed_checkpoint': 1 if dest[0]['x'] == 24.11301308126712 and dest[0]['y'] == -4.105150426922675 else 0,
+                'last_completed_checkpoint': 1 if dest[0]['x'] == 15.536666642314527 and dest[0]['y'] == -3.956824150953915 else 0,
                 'is_moving': is_moving,
                 'battery_soc': battery_soc,
                 # 'error': ''

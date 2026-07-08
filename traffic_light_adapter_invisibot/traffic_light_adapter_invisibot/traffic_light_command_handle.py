@@ -88,7 +88,7 @@ class TrafficLightCommandHandle:
     def pause_cb(self):
         """Emergency pause from RMF (imminent conflict)."""
         with self._lock:
-            self.logger.info(
+            self.logger.warn(
                 f'[{self.robot_name}] RMF requested PAUSE')
             self._paused_by_rmf = True
             self._gated_at_cp = None
@@ -99,7 +99,7 @@ class TrafficLightCommandHandle:
     def resume_cb(self):
         """Resume the robot."""
         with self._lock:
-            self.logger.info(
+            self.logger.warn(
                 f'[{self.robot_name}] RMF requested RESUME')
             self._paused_by_rmf = False
             if not self.robot_api.resume(self.robot_name):
