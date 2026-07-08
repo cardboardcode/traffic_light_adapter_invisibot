@@ -10,19 +10,17 @@
   <group if="$(var use_sim_time)">
     <node pkg="traffic_light_adapter_invisibot"
           exec="fleet_adapter"
-          args="-c $(var config_file) -sim"
+          args="-c $(var config_file) -s $(var server_uri) -sim"
           output="both">
 
-      <param name="server_uri" value="$(var server_uri)"/>
     </node>
   </group>
   <group unless="$(var use_sim_time)">
     <node pkg="traffic_light_adapter_invisibot"
           exec="fleet_adapter"
-          args="-c $(var config_file)"
+          args="-c $(var config_file) -s $(var server_uri)"
           output="both">
 
-      <param name="server_uri" value="$(var server_uri)"/>
     </node>
   </group>
 
